@@ -12,11 +12,6 @@ export class UsersController {
         return this.usersService.findAll()
     }
 
-    @Get(':userId')
-    getUserProfile(@Param('userId') userId: string){
-        return this.usersService.getUserProfile(userId)
-    }
-
     @Post()
     createUser(@Body() createUserDto: CreateUserDto){
         return this.usersService.create(createUserDto);

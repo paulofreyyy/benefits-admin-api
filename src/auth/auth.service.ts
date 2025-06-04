@@ -23,7 +23,7 @@ export class AuthService {
     }
 
     async register(registerDto: RegisterDto): Promise<{ message: string }> {
-        const { email, password, firstName, lastName, role } = registerDto;
+        const { email, password, firstName, lastName } = registerDto;
 
         const existingUser = await this.usersService.findOne(email);
         if (existingUser) {
@@ -36,7 +36,6 @@ export class AuthService {
             lastName,
             email,
             password: hashedPassword,
-            role: 'user'
         });
 
         return { message: 'Usuário criado com sucesso' };
