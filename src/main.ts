@@ -6,10 +6,15 @@ async function bootstrap() {
     const app = await NestFactory.create(AppModule, { cors: true });
 
     const config = new DocumentBuilder()
-        .setTitle('Api example')
-        .setDescription('The API description')
+        .setTitle('BENEFITS ADMIN')
+        .setDescription('Esta é uma api focada no gerenciamento de vouchers e beneficios.')
         .setVersion('1.0')
-        .addTag('TAG')
+        .addTag('BENEFITS ADMIN')
+        .addGlobalResponse({
+            status: 500,
+            description: 'Internal server error',
+        })
+        .addBearerAuth()
         .build()
 
     const documentFactory = () => SwaggerModule.createDocument(app, config);
