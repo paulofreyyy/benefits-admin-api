@@ -4,12 +4,18 @@ import { IsNotEmpty, IsString, MinLength } from 'class-validator';
 export class LoginDto {
     @IsNotEmpty()
     @IsString()
-    @ApiProperty()
+    @ApiProperty({example: 'paulo@exemple.com'})
     email: string;
 
     @IsNotEmpty()
     @IsString()
     @MinLength(6)
-    @ApiProperty()
+    @ApiProperty({example: '123qwe'})
     password: string;
+}
+
+
+export class LoginResponseDto{
+    @ApiProperty()
+    access_token: string
 }
