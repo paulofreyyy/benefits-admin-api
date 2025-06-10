@@ -7,8 +7,8 @@ async function bootstrap() {
 
     const config = new DocumentBuilder()
         .setTitle('BENEFITS ADMIN')
-        .setDescription('Esta é uma api focada no gerenciamento de vouchers e beneficios.')
-        .setVersion('1.0')
+        .setDescription('API para gerenciamento de vouchers e benefícios.')
+        .setVersion('1.0.0')
         .addTag('BENEFITS ADMIN')
         .addGlobalResponse({
             status: 500,
@@ -17,8 +17,14 @@ async function bootstrap() {
         .addBearerAuth()
         .build()
 
-    const documentFactory = () => SwaggerModule.createDocument(app, config);
-    SwaggerModule.setup('api', app, documentFactory);
+    const document = SwaggerModule.createDocument(app, config);
+
+    SwaggerModule.setup('api', app, document,{
+        swaggerOptions:{
+            persistAuthorization: true,
+            displayRequestDuration: true
+        }
+    });
 
     app.enableCors({
         origin: '*',
