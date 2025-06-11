@@ -33,12 +33,11 @@ export class AuthService {
             throw new ConflictException('Usuário já existe');
         }
 
-        const hashedPassword = await bcrypt.hash(password, 10);
         await this.usersService.create({
             firstName,
             lastName,
             email,
-            password: hashedPassword,
+            password,
         });
 
         return { message: 'Usuário criado com sucesso' };
