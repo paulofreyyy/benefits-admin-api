@@ -29,17 +29,4 @@ export class AuthController {
     register(@Body(new ValidationPipe()) registerDto: RegisterDto) {
         return this.authService.register(registerDto);
     }
-
-    @UseGuards(AuthGuard)
-    @Get('profile')
-    @ApiBearerAuth()
-    @ApiOperation({ summary: 'Retorna perfil de usuário logado' })
-    @ApiResponse({ status: 200, description: "Perfil obtido com sucesso", type: UserProfileDto })
-    @ApiBadRequestResponse({ description: 'Dados inválidos' })
-    @ApiNotFoundResponse({ description: 'Usuário não encontrado' })
-    @ApiUnauthorizedResponse({ description: 'Token ausente ou inválido' })
-    getProfile(@Request() req):Promise<UserProfileDto> {
-        return req.user;
-    }
-
 }
