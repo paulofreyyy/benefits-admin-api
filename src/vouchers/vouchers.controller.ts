@@ -1,8 +1,9 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from '@nestjs/common';
 import { VouchersService } from './vouchers.service';
 import { CreateVoucherDto } from './dtos/create-voucher.dto';
 import { ApiBadRequestResponse, ApiBearerAuth, ApiNotFoundResponse, ApiOperation, ApiResponse, ApiUnauthorizedResponse } from '@nestjs/swagger';
 import { AuthGuard } from 'src/auth/auth.guard';
+import { FindVouchersQueryDto } from './dtos/find-vouchers-query.dto';
 
 @Controller('vouchers')
 @ApiBearerAuth()
@@ -11,23 +12,13 @@ export class VouchersController {
     constructor(private readonly vouchersService: VouchersService) { }
 
     @Post()
-    @ApiOperation({ summary: 'Cria um novo voucher' })
+    @ApiOperation({ summary: 'Concede um novo voucher a um colaborador' })
     @ApiResponse({ status: 201, description: "Voucher criado com sucesso", type: CreateVoucherDto })
     @ApiBadRequestResponse({ description: 'Dados inválidos' })
     @ApiUnauthorizedResponse({ description: 'Token ausente ou inválido' })
     @ApiNotFoundResponse({ description: 'Recurso não encontrado' })
     create(@Body() createBenefitDto: CreateVoucherDto) {
         return this.vouchersService.create(createBenefitDto);
-    }
-
-    @Get()
-    @ApiOperation({ summary: 'Retorna todos os beneficios cadastrados' })
-    @ApiResponse({ status: 200, description: "Vouchers retornados com sucesso" })
-    @ApiBadRequestResponse({ description: 'Dados inválidos' })
-    @ApiUnauthorizedResponse({ description: 'Token ausente ou inválido' })
-    @ApiNotFoundResponse({ description: 'Recurso não encontrado' })
-    findAll() {
-        return this.vouchersService.findAll();
     }
 
     @Get(':id')
@@ -38,6 +29,18 @@ export class VouchersController {
     @ApiNotFoundResponse({ description: 'Recurso não encontrado' })
     findOne(@Param('id') id: string) {
         return this.vouchersService.findOne(id);
+    }
+
+    @Get('')
+    @ApiOperation({ summary: 'Retorna vouchers com ou sem filtros (userId, status)' })
+    @ApiResponse({ status: 200, description: "Vouchers retornados com sucesso" })
+    @ApiBadRequestResponse({ description: 'Dados inválidos' })
+    @ApiUnauthorizedResponse({ description: 'Token ausente ou inválido' })
+    @ApiNotFoundResponse({ description: 'Recurso não encontrado' })
+    findVouchers(
+        @Query() query: FindVouchersQueryDto
+    ) {
+        return this.vouchersService.findVouchers(query);
     }
 
     @Delete(':id')

@@ -1,11 +1,12 @@
 import { ApiProperty } from "@nestjs/swagger";
+import { Types } from "mongoose";
 
 export class CreateVoucherDto {
     @ApiProperty({ example: '684096c40938487a4ee70b9a', description: 'ID do usuário' })
-    userId: string;
+    userId: Types.ObjectId;
 
     @ApiProperty({ example: '68474d8212ac38fd46d66b0f', description: 'ID do benefício' })
-    benefitId: string;
+    benefitId: Types.ObjectId;
 
     @ApiProperty({ example: '100.0', description: 'Valor do voucher' })
     value: number;
